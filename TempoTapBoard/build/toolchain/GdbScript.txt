@@ -1,0 +1,16 @@
+target remote localhost:3333
+monitor reset
+monitor halt
+define reflash
+monitor flash write_image erase unlock ./sandbox 0
+end
+reflash
+define verify
+monitor verify_image ./sandbox 0
+end
+verify
+disconnect
+target remote localhost:3333
+monitor reset
+monitor halt
+file ./sandbox
