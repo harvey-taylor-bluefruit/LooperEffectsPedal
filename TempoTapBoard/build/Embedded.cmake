@@ -9,9 +9,16 @@ else()
     set(CHAIN arm-none-eabi-)
 endif()
 
-target_compile_definitions(sandbox PRIVATE ${TARGET} ECB __STDC_LIMIT_MACROS SATORU_DEBUG)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/build/toolchain/${LINKER_SCRIPT})
+target_compile_definitions(sandbox PRIVATE ${TARGET} ${MCU_FAMILY} ECB __STDC_LIMIT_MACROS SATORU_DEBUG)
+add_custom_target(connect_jlink COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32_jlink.cfg &)
+add_custom_target(connect_stlinkV2 COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32_stlinkV2.cfg &)
 
-add_custom_target(connect_jlink COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32f4_jlink.cfg &)
-add_custom_target(connect_stlinkV2 COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32f4_stlinkV2.cfg &)
-add_custom_target(connect_stlinkV2-1 COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32f4_stlinkV2-1.cfg &)
+
+if ("${TARGET}" STREQUAL "STM32F746xx")
+   add_custom_target(connect_stlinkV2-1 COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32_stlinkV2-1_stm32f746.cfg &)
+else()
+   add_custom_target(connect_stlinkV2-1 COMMAND openocd -f ${CMAKE_SOURCE_DIR}/build/toolchain/stm32_stlinkV2-1_stm32f429.cfg &)
+endif()
+
 add_custom_target(debug COMMAND ${CHAIN}gdb-py -x ${CMAKE_SOURCE_DIR}/build/toolchain/GdbScript.txt)

@@ -156,7 +156,7 @@ g_pfnVectors:
   .word  DebugMon_Handler
   .word  0
   .word  PendSV_Handler
-  .word  SysTick_Handler
+  .word  TickHandler
   
   /* External Interrupts */
   .word     WWDG_IRQHandler                   /* Window WatchDog              */                                        

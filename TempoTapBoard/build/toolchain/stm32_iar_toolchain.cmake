@@ -6,6 +6,11 @@
 # CMake
 # ------------------------------------------------------------------------------
 
+if(TOOLCHAIN_INCLUDED)
+        return()
+endif(TOOLCHAIN_INCLUDED)
+set(TOOLCHAIN_INCLUDED true)
+
 # Minimum CMake version.
 cmake_minimum_required(VERSION 2.8)
 
@@ -182,7 +187,7 @@ set(CMAKE_C_CREATE_STATIC_LIBRARY "<CMAKE_AR> <TARGET> --create <LINK_FLAGS> <OB
 # Linker
 # ------------------------------------------------------------------------------
 
-set(IAR_LINKER_ICF_FILE "${CMAKE_SOURCE_DIR}/build/toolchain/LinkerScript_IAR.icf" CACHE FILEPATH ".icf Linker file for ILINK.")
+set(IAR_LINKER_ICF_FILE "${LINKER_SCRIPT}" CACHE FILEPATH ".icf Linker file for ILINK.")
 
 set(IAR_LINKER_ENTRY_ROUTINE "__iar_program_start" CACHE STRING "IAR Linker entry point routine.")
 

@@ -2,18 +2,17 @@ add_subdirectory(googletest)
 
 include_directories(
     ${GTEST_INCLUDE_DIR}
-    tests/NullMocks
-    tests/Mocks
-    core
-    ipc
+    satoru/tests/NullMocks
+    satoru/tests/Mocks
+    satoru/core
+    satoru/ipc
 )
 
 # Setup testing
 enable_testing()
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 
-add_library(satoru_library ${COMMON_SOURCE} ${UNIT_TEST_SOURCE})
-add_library(libmocks ${LIBMOCKS})
+add_library(satoru_library ${COMMON_SOURCE} ${UNIT_TEST_SOURCE} ${LIBMOCKS})
 target_compile_definitions(satoru_library PRIVATE TESTING=1)
 
 foreach(test ${SATORU_TESTS})

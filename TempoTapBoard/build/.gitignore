@@ -1,2 +1,2 @@
-UnitTests_Makefiles
-Embedded_Makefiles
+unit_tests_makefiles
+embedded_*files
